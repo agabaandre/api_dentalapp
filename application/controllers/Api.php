@@ -22,30 +22,32 @@ class Api extends REST_Controller
     {
         $userdata= $this->security->xss_clean($this->input->raw_input_stream);
         $data= json_decode($userdata);
-       if ($this->Authorise($this->key)=='Valid Key'){
+       if ($this->Authorise($this->key,'Login')=='Valid Key'){
         $userInfo = $this->authHandler->authenticate($data);
     
-        if(isset($userInfo)) {
-        $response = array("status"=>"USER_FOUND","message"=>"Successfully authenticated","user"=>$userInfo);
+        if($userInfo) {
+        $response = array("msg"=>"USER_FOUND","status"=>"Authenticated","user"=>$userInfo);
         $this->response($response, REST_Controller::HTTP_OK);
         } else {
-        $response = array("error"=>"ERROR_OCCURRED", "status" => "USER_NOT_FOUND", "message" => "Unable to authenticated", "user" => null);
+        $response = array("msg"=>"ERROR_OCCURRED", "status" => "Authentication Failed", "user" => null);
         $this->response($response, REST_Controller::HTTP_OK);
         }
         }
     }
-    public function Authorise($key){  
+    public function Authorise($key,$action=NULL){  
         $apikey = $this->authHandler->validate($key);
         if ($apikey){
+        $log = $this->authHandler->log($key,$action);
         return 'Valid Key';
         }
         else{
         return 'Invalid Key';     
         }
+
     }
     public function requests_get()
     {
-        if ($this->Authorise($this->key)=='Valid Key'){
+        if ($this->Authorise($this->key,'Fecthed Requests')=='Valid Key'){
         $requestData = $this->requestHandler->get_requests();
         if ($requestData){
         $results = array("msg"=>"Data Found", "requests"=> $requestData);
@@ -53,6 +55,22 @@ class Api extends REST_Controller
         }
         else{
         $results = array("msg"=>"No Data Found", "requests"=> $requestData);
+        $this->response($results, REST_Controller::HTTP_OK);
+        }
+    }
+    }
+    public function cancelRequest_post()
+    {
+        if ($this->Authorise($this->key,'Cancel Request and Delete is messages')=='Valid Key'){
+        $postData= $this->security->xss_clean($this->input->raw_input_stream);
+        $data= json_decode($postData);
+        $requestData = $this->requestHandler->cancelRequest($data->requestId);
+        if ($requestData){
+        $results = array("msg"=>"Cancelled", "requests"=> $requestData);
+        $this->response($results, REST_Controller::HTTP_OK);
+        }
+        else{
+        $results = array("msg"=>"Failed", "requests"=> $requestData);
         $this->response($results, REST_Controller::HTTP_OK);
         }
     }
@@ -124,30 +142,116 @@ class Api extends REST_Controller
         if ($this->Authorise($this->key)=='Valid Key'){
         $data= $this->security->xss_clean($this->input->raw_input_stream);
         $postData = json_decode($data);
-        print_r($postData);
-
+       // print_r($postData);
         $today=date('Y-m-d');
         if($postData->requested_date < $today){
-        $this->response(array('error'=> 'FAILED', 'status'=>'FAILED', 'message'=>'Past date'), REST_Controller::HTTP_OK);
+        $this->response(array('error'=> 'FAILED', 'msg'=>'FAILED', 'message'=>'Past date'), REST_Controller::HTTP_OK);
         }
       
         elseif (empty($postData->name)) {
-        $this->response(array('error'=> 'FAILED', 'status'=>'FAILED', 'message'=>'Provide your name'), REST_Controller::HTTP_OK);
+        $this->response(array('error'=> 'FAILED', 'msg'=>'FAILED', 'message'=>'Provide your name'), REST_Controller::HTTP_OK);
         }
         elseif (empty($postData->mobile)) {
-        $this->response(array('error'=> 'FAILED', 'status'=>'FAILED', 'message'=>'Provide your Contact'), REST_Controller::HTTP_OK);
+        $this->response(array('error'=> 'FAILED', 'msg'=>'FAILED', 'message'=>'Provide your Contact'), REST_Controller::HTTP_OK);
         }
         else {
-        $result = $this->requestHandler->post_request($postData);
+        $result = $this->requestHandler->saveRequest($postData);
         if($result) {
-        $this->response(array( 'error' => '', 'status'=> 'CREATED','message'=>'Submitted'), REST_Controller::HTTP_CREATED);
+        $this->response(array( 'error' => '', 'msg'=> 'CREATED','message'=>'Submitted','userinfo'=>$result), REST_Controller::HTTP_CREATED);
         } 
         else {
-        $this->response(array('error'=> 'FAILED', 'status'=>'FAILED', 'message'=>'Submission Failed'), REST_Controller::HTTP_OK);
+        $this->response(array('error'=> 'FAILED', 'msg'=>'FAILED', 'message'=>'Submission Failed','userinfo'=>$result), REST_Controller::HTTP_OK);
+        }
+        }
         }
     }
-  }
+    public function newdoctor_post()
+    {
+        if ($this->Authorise($this->key)=='Valid Key'){
+        $data= $this->security->xss_clean($this->input->raw_input_stream);
+        $postData = json_decode($data);
+       // print_r($postData);
+    
+        if(empty($postData->mobile)){
+        $this->response(array('error'=> 'FAILED', 'msg'=>'FAILED', 'message'=>'Mobile is required'), REST_Controller::HTTP_OK);
+        }
+      
+        elseif (empty($postData->name)) {
+        $this->response(array('error'=> 'FAILED', 'msg'=>'FAILED', 'message'=>'Provide a Name'), REST_Controller::HTTP_OK);
+        }
+    
+        else {
+        $result = $this->requestHandler->add_doctor($postData);
+        if($result) {
+        $this->response(array( 'error' => '', 'msg'=> 'CREATED','message'=>'Submitted','logins'=>$result), REST_Controller::HTTP_CREATED);
+        } 
+        else {
+        $this->response(array('error'=> 'FAILED', 'msg'=>'FAILED', 'message'=>'Submission Failed'), REST_Controller::HTTP_OK);
+             }
+            }
+        }
+    }
+    public function messages_get(){
+        if ($this->Authorise($this->key)=='Valid Key'){
+        $messageData = $this->requestHandler->getMessages();
+        if ($messageData){
+        $results = array("msg"=>"Data Found", "messages"=> $messageData);
+        $this->response($results, REST_Controller::HTTP_OK);
+        }
+        else{
+        $results = array("msg"=>"No Data Found", "messages"=> $messageData);
+        $this->response($results, REST_Controller::HTTP_OK);
+        }
+        }
+    }
+    public function message_post(){
+        $data= $this->security->xss_clean($this->input->raw_input_stream);
+        $postData = json_decode($data);
+        if ($this->Authorise($this->key)=='Valid Key'){
+        $messageData = $this->requestHandler->getMessages($postData);
+        if ($messageData){
+        $results = array("msg"=>"Data Found", "messages"=> $messageData);
+        $this->response($results, REST_Controller::HTTP_OK);
+        }
+        else{
+        $results = array("msg"=>"No Data Found", "messages"=> $messageData);
+        $this->response($results, REST_Controller::HTTP_OK);
+        }
+        }
+    }
+    public function replymessages_post(){
+        $postData= $this->security->xss_clean($this->input->raw_input_stream);
+        $data= json_decode($postData);
+        if ($this->Authorise($this->key)=='Valid Key'){
+        $replyStatus = $this->requestHandler->replyMessages($data);
+        if ($replyStatus){
+        $results = array("msg"=>"Success", "messages"=> $replyStatus);
+        $this->response($results, REST_Controller::HTTP_CREATED);
+        }
+        else{
+        $results = array("msg"=>"Failed", "messages"=> $replyStatus);
+        $this->response($results, REST_Controller::HTTP_OK);
+        }
+        }
+    }
+    public function changePassword_post(){
+        $postData= $this->security->xss_clean($this->input->raw_input_stream);
+        $data= json_decode($postData);
+        if ($this->Authorise($this->key)=='Valid Key'){
+        $replyStatus = $this->requestHandler->changepwd($data);
+        if ($replyStatus){
+        $results = array("msg"=>"Success", "messages"=> $replyStatus);
+        $this->response($results, REST_Controller::HTTP_CREATED);
+        }
+        else{
+        $results = array("msg"=>"Failed", "messages"=> $replyStatus);
+        $this->response($results, REST_Controller::HTTP_OK);
+        }
+        }
+    }
+
+
 }
     
 
-}
+

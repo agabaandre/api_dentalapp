@@ -10,7 +10,7 @@ Class Auth extends CI_Model {
         $this->db->where('status','1');
         $this->db->from('users');
         $query = $this->db->get();
-        if($query->num_rows() === 1) {
+        if($query->num_rows()>0) {
             $row = $query->row();
             $userInfo = array(
                 "name"=> $row->name,
@@ -42,6 +42,12 @@ Class Auth extends CI_Model {
 
         } else {
             return FALSE;
+        }
+
+    }
+    public function log($apikey,$action) {
+        if (!empty($action)){
+        $this->db->query ("INSERT into logs values(NULL,'$apikey',NULL,'$action')");
         }
 
     }
