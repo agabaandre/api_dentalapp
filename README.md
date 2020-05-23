@@ -492,10 +492,11 @@ http://localhost/api_dentalapp/Api/changePassword/KEY
   "msg": "Success",
   "messages": "Changed Successful"
 }
-
+```
 1. cancelRequest_post
 http://localhost/api_dentalapp/Api/cancelRequest/KEY
 1. postdata
+```javascript
 {
   "requestId":"26"
 }
