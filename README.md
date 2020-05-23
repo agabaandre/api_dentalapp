@@ -25,7 +25,7 @@ posted data
 ```
 1. post a new request / consulation
 1. automatically login in the user and give them their deault password login
-1. Patient is hardcoded category
+1. Patient is a hardcoded user category predefined from the forms
 http://localhost/api_dentalapp/Api/request/KEY
 1. posted data
 ```javascript
