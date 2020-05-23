@@ -1,9 +1,9 @@
 # api_dentalapp Documentation
 
-//API REQUESTS
-//login_post
+# API REQUESTS
+1. login_post
 http://localhost/api_dentalapp/Api/login/KEY
-//posted data
+posted data
 
 ```javascript
 {
@@ -11,7 +11,7 @@ http://localhost/api_dentalapp/Api/login/KEY
   "password": "admin"
 }
 ```
-//response
+1. response
 ```javascript
 {
   "msg": "USER_FOUND",
@@ -23,11 +23,11 @@ http://localhost/api_dentalapp/Api/login/KEY
   }
 }
 ```
-//post a new request / consulation
-//automatically login in the user and give them their deault password login
-//Patient is hardcoded category
+1. post a new request / consulation
+1. automatically login in the user and give them their deault password login
+1. Patient is hardcoded category
 http://localhost/api_dentalapp/Api/request/KEY
-//posted data
+1. posted data
 ```javascript
 {
   "name": "Kiyingi Chris",
@@ -43,7 +43,7 @@ http://localhost/api_dentalapp/Api/request/KEY
   "usertype": "Patient"
 }
 ```
-//response
+1. response
 ```javascript
 {
   "error": "",
@@ -64,8 +64,8 @@ http://localhost/api_dentalapp/Api/request/KEY
 }
 ```
 http://localhost/api_dentalapp/Api/requests/KEY
-//get last 20 requests for Admins
-//response
+1. get last 20 requests for Admins
+1. response
 ```javascript
 {
   "msg": "Data Found",
@@ -157,15 +157,15 @@ http://localhost/api_dentalapp/Api/requests/KEY
   ]
 }
 ```
-//search request _post
+1. search request _post
 http://localhost/api_dentalapp/Api/searchRequest/KEY
-//post data allows name,date,request_id strings
+1. post data allows name,date,request_id strings
 ```javascript
 {
   "searchTerm": "JIM"
 }
 ```
-//response
+1. response
 ```javascript
 {
   "msg": "Data Found",
@@ -201,10 +201,10 @@ http://localhost/api_dentalapp/Api/searchRequest/KEY
   ]
 }
 ```
-//post request to create a chat between doctors and patients
-// NB: Message subjects are created when a request is posted
-//added the number since it a unique username for each user
-//Any ideas of how can make it realtime
+1. post request to create a chat between doctors and patients
+1.  NB: Message subjects are created when a request is posted
+1. added the number since it a unique username for each user
+1. Any ideas of how can make it realtime
 http://localhost/api_dentalapp/Api/replymessages/KEY
 ```javascript
 {
@@ -216,9 +216,9 @@ http://localhost/api_dentalapp/Api/replymessages/KEY
   "usertype": "Patient"
 }
 ```
-//get all _messages and all replies
+1. get all _messages and all replies
 http://localhost/api_dentalapp/Api/messages/KEY
-//response
+1. response
 ```javascript
 {
   "msg": "Data Found",
@@ -289,9 +289,9 @@ http://localhost/api_dentalapp/Api/messages/KEY
 }
 ```
 
-//get clinic services
+1. get clinic services
 http://localhost/api_dentalapp/Api/services/KEY
-//response
+1. response
 ```javascript
 {
   "msg": "Data Found",
@@ -320,7 +320,7 @@ http://localhost/api_dentalapp/Api/services/KEY
 
 get users messages and replies
 http://localhost/api_dentalapp/Api/message/KEY 
-//postdata
+1. postdata
 ```javascript
 {
   "username": "0702787688"
@@ -366,8 +366,8 @@ http://localhost/api_dentalapp/Api/message/KEY
 }
 ```
 
-//create new doctor _post
-//creates a user account for the doctor with details login
+1. create new doctor _post
+1. creates a user account for the doctor with details login
 http://localhost/api_dentalapp/Api/newdoctor/KEY
 ```javascript
 {
@@ -378,7 +378,7 @@ http://localhost/api_dentalapp/Api/newdoctor/KEY
   "cadre": "Dental Assistant",
   "usertype":"Doctor"
 }
-//response
+1. response
 {
   "error": "",
   "msg": "CREATED",
@@ -397,14 +397,14 @@ http://localhost/api_dentalapp/Api/newdoctor/KEY
   ]
 }
 ```
-//available doctors_post to get available for requests by schedule date
+1. available doctors_post to get available for requests by schedule date
 http://localhost/api_dentalapp/Api/availableDoctors/KEY
-//postdata
+1. postdata
 ```javascript
 {
   "searchDate": "2020-05-25"
 }
-//response
+1. response
 {
   "msg": "Data Found",
   "requests": [
@@ -422,7 +422,7 @@ http://localhost/api_dentalapp/Api/availableDoctors/KEY
 }
 ```
 
-//get_doctors list
+1. get_doctors list
 http://localhost/api_dentalapp/Api/doctors/KEY
 ```javascript
 {
@@ -477,7 +477,7 @@ http://localhost/api_dentalapp/Api/doctors/KEY
 }
 
 ```
-//change password /reset password
+1. change password /reset password
 http://localhost/api_dentalapp/Api/changePassword/KEY
 ```javascript
 {
@@ -485,20 +485,20 @@ http://localhost/api_dentalapp/Api/changePassword/KEY
   "oldpwd": "admin",
   "newpwd": "admin"
 }
-//response
+1. response
 
 {
   "msg": "Success",
   "messages": "Changed Successful"
 }
 
-//cancelRequest_post
+1. cancelRequest_post
 http://localhost/api_dentalapp/Api/cancelRequest/KEY
-//postdata
+1. postdata
 {
   "requestId":"26"
 }
-//response
+1. response
 {
   "msg": "Cancelled",
   "requests": {
