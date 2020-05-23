@@ -5,13 +5,11 @@ Class Auth extends CI_Model {
     public function authenticate($userdata) {
         $username = $userdata->username;
         $password = $userdata->password;
-
         $this->db->where('username', $username);
         $this->db->where('password', md5($password));
         $this->db->where('status','1');
         $this->db->from('users');
         $query = $this->db->get();
-
         if($query->num_rows() === 1) {
             $row = $query->row();
             $userInfo = array(
