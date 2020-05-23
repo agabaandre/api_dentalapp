@@ -206,7 +206,7 @@ http://localhost/api_dentalapp/Api/searchRequest/KEY
 1. added the number since it a unique username for each user
 1. Any ideas of how can make it realtime
 http://localhost/api_dentalapp/Api/replymessages/KEY
-<p>Post Data</p>
+
 ```javascript
 {
   "request_id": "4",
