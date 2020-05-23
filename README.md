@@ -2,7 +2,7 @@
 
 //API REQUESTS
 //login_post
-http://localhost/api_dentalapp/Api/login/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/login/KEY
 //posted data
 
 ```javascript
@@ -12,6 +12,7 @@ http://localhost/api_dentalapp/Api/login/21232f297a57a5a743894a0e4a801fc3
 }
 ```
 //response
+```javascript
 {
   "msg": "USER_FOUND",
   "status": "Authenticated",
@@ -21,12 +22,13 @@ http://localhost/api_dentalapp/Api/login/21232f297a57a5a743894a0e4a801fc3
     "usertype": "admin"
   }
 }
-
+```
 //post a new request / consulation
 //automatically login in the user and give them their deault password login
 //Patient is hardcoded category
-http://localhost/api_dentalapp/Api/request/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/request/KEY
 //posted data
+```javascript
 {
   "name": "Kiyingi Chris",
   "mobile": "07877261881",
@@ -40,7 +42,9 @@ http://localhost/api_dentalapp/Api/request/21232f297a57a5a743894a0e4a801fc3
   "remarks": "In Pain",
   "usertype": "Patient"
 }
+```
 //response
+```javascript
 {
   "error": "",
   "msg": "CREATED",
@@ -58,10 +62,11 @@ http://localhost/api_dentalapp/Api/request/21232f297a57a5a743894a0e4a801fc3
     }
   ]
 }
-
-http://localhost/api_dentalapp/Api/requests/21232f297a57a5a743894a0e4a801fc3
+```
+http://localhost/api_dentalapp/Api/requests/KEY
 //get last 20 requests for Admins
 //response
+```javascript
 {
   "msg": "Data Found",
   "requests": [
@@ -151,15 +156,17 @@ http://localhost/api_dentalapp/Api/requests/21232f297a57a5a743894a0e4a801fc3
     }
   ]
 }
-
+```
 //search request _post
-http://localhost/api_dentalapp/Api/searchRequest/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/searchRequest/KEY
 //post data allows name,date,request_id strings
+```javascript
 {
   "searchTerm": "JIM"
 }
-
+```
 //response
+```javascript
 {
   "msg": "Data Found",
   "requests": [
@@ -193,12 +200,13 @@ http://localhost/api_dentalapp/Api/searchRequest/21232f297a57a5a743894a0e4a801fc
     }
   ]
 }
-
+```
 //post request to create a chat between doctors and patients
 // NB: Message subjects are created when a request is posted
 //added the number since it a unique username for each user
 //Any ideas of how can make it realtime
-http://localhost/api_dentalapp/Api/replymessages/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/replymessages/KEY
+```javascript
 {
   "request_id": "4",
   "message_id": "6",
@@ -207,10 +215,11 @@ http://localhost/api_dentalapp/Api/replymessages/21232f297a57a5a743894a0e4a801fc
   "mobile": "0702783738",
   "usertype": "Patient"
 }
-
+```
 //get all _messages and all replies
-http://localhost/api_dentalapp/Api/messages/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/messages/KEY
 //response
+```javascript
 {
   "msg": "Data Found",
   "messages": [
@@ -278,9 +287,12 @@ http://localhost/api_dentalapp/Api/messages/21232f297a57a5a743894a0e4a801fc3
     }
   ]
 }
+```
+
 //get clinic services
-http://localhost/api_dentalapp/Api/services/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/services/KEY
 //response
+```javascript
 {
   "msg": "Data Found",
   "requests": [
@@ -304,11 +316,12 @@ http://localhost/api_dentalapp/Api/services/21232f297a57a5a743894a0e4a801fc3
     }
   ]
 }
-
+```
 
 get users messages and replies
-http://localhost/api_dentalapp/Api/message/21232f297a57a5a743894a0e4a801fc3 
+http://localhost/api_dentalapp/Api/message/KEY 
 //postdata
+```javascript
 {
   "username": "0702787688"
 }
@@ -351,11 +364,12 @@ http://localhost/api_dentalapp/Api/message/21232f297a57a5a743894a0e4a801fc3
     }
   ]
 }
-
+```
 
 //create new doctor _post
 //creates a user account for the doctor with details login
-http://localhost/api_dentalapp/Api/newdoctor/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/newdoctor/KEY
+```javascript
 {
   "work_id": "07726",
   "name": "Bruno James",
@@ -382,10 +396,11 @@ http://localhost/api_dentalapp/Api/newdoctor/21232f297a57a5a743894a0e4a801fc3
     }
   ]
 }
-
+```
 //available doctors_post to get available for requests by schedule date
-http://localhost/api_dentalapp/Api/availableDoctors/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/availableDoctors/KEY
 //postdata
+```javascript
 {
   "searchDate": "2020-05-25"
 }
@@ -405,10 +420,11 @@ http://localhost/api_dentalapp/Api/availableDoctors/21232f297a57a5a743894a0e4a80
     }
   ]
 }
-
+```
 
 //get_doctors list
-http://localhost/api_dentalapp/Api/doctors/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/doctors/KEY
+```javascript
 {
   "msg": "Data Found",
   "requests": [
@@ -460,9 +476,10 @@ http://localhost/api_dentalapp/Api/doctors/21232f297a57a5a743894a0e4a801fc3
   ]
 }
 
-//
-change password /reset password
-http://localhost/api_dentalapp/Api/changePassword/21232f297a57a5a743894a0e4a801fc3
+```
+//change password /reset password
+http://localhost/api_dentalapp/Api/changePassword/KEY
+```javascript
 {
   "username": "admin",
   "oldpwd": "admin",
@@ -476,7 +493,7 @@ http://localhost/api_dentalapp/Api/changePassword/21232f297a57a5a743894a0e4a801f
 }
 
 //cancelRequest_post
-http://localhost/api_dentalapp/Api/cancelRequest/21232f297a57a5a743894a0e4a801fc3
+http://localhost/api_dentalapp/Api/cancelRequest/KEY
 //postdata
 {
   "requestId":"26"
@@ -488,4 +505,5 @@ http://localhost/api_dentalapp/Api/cancelRequest/21232f297a57a5a743894a0e4a801fc
     "dbstatus": "Cancelled"
   }
 }
+```
 
