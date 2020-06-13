@@ -201,11 +201,12 @@ http://localhost/api_dentalapp/Api/searchRequest/KEY
   ]
 }
 ```
-1. post request to create a chat between doctors and patients
+1. post request to create  reply to a chat between doctors and patients
 1.  NB: Message subjects are created when a request is posted
 1. added the number since it a unique username for each user
 1. Any ideas of how can make it realtime
 http://localhost/api_dentalapp/Api/replymessages/KEY
+
 ```javascript
 {
   "request_id": "4",
@@ -491,10 +492,11 @@ http://localhost/api_dentalapp/Api/changePassword/KEY
   "msg": "Success",
   "messages": "Changed Successful"
 }
-
+```
 1. cancelRequest_post
 http://localhost/api_dentalapp/Api/cancelRequest/KEY
 1. postdata
+```javascript
 {
   "requestId":"26"
 }
