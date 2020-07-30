@@ -11,19 +11,39 @@ class Api extends REST_Controller
         $this->load->model("Request", "requestHandler");
         $this->load->model("Employee", "employeeHandler");
         $this->key = urldecode($this->uri->segment(3));
+
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
     }
 
     public function index_get()
     {
         $this->response("ST MARYS DENTAL SERVICES API", REST_Controller::HTTP_OK);
     }
+    function logData($decolator='Log',$data){
+        if(is_object($data) || is_array($data))
+            $data = json_encode($data);
+        $message ="\n---------New ".$decolator." ".date('Y-m-d h:i')."----\n".$data;
+        log_message("error",$message);
+    }
 
     public function login_post()
     {
+        header("Access-Control-Allow-Origin: *");
         $userdata= $this->security->xss_clean($this->input->raw_input_stream);
-        $data= json_decode($userdata);
+        $logindata= json_decode($userdata);
+        $this->logData('Login',$userdata);
+        $this->logData('Decoded Login',$logindata);
+
        if ($this->Authorise($this->key,'Login')=='Valid Key'){
-        $userInfo = $this->authHandler->authenticate($data);
+        $userInfo = $this->authHandler->authenticate($logindata);
+        
+        $this->logData('Login response',$userInfo);
     
         if($userInfo) {
         $response = array("msg"=>"USER_FOUND","status"=>"Authenticated","user"=>$userInfo);
